@@ -1,0 +1,38 @@
+language: android
+dist: trusty
+android:
+  components:
+    - android-29
+    - build-tools-28.0.3
+install:
+  # Accept Android licenses.
+  - touch ~/.android/repositories.cfg
+  - echo yes | sdkmanager "tools" "system-images;android-24;default;armeabi-v7a" > /dev/null
+  - export ANDROID_SDK_ROOT="$ANDROID_HOME"
+
+before_script:
+  - ./gradlew lint testDebugUnitTest
+  # Create and start the emulator.
+  - echo no | avdmanager create avd -f -n test -k "system-images;android-24;default;armeabi-v7a"
+  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
+  - ./android_wait_for_emulator.sh
+  - adb shell input keyevent 82
+
+script:
+  # Run the instrumentation tests.
+  - ./gradlew connectedDebugAndroidTest
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
+    - $HOME/.m2
+after_success:
+  - gradle/deploy_snapshot.sh
+notifications:
+  email: false
