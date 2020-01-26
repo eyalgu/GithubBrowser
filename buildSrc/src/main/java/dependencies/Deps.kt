@@ -19,7 +19,11 @@ object Deps {
         object Test {
             val junitExt = "androidx.test.ext:junit:1.1.1"
             val espressoCore =  "androidx.test.espresso:espresso-core:3.2.0"
-
+        }
+        object Fragment {
+            private val version = "1.2.0"
+            val fragmentKtx = "androidx.fragment:fragment-ktx:$version"
+            val fragmentTesting = "androidx.fragment:fragment-testing:$version"
         }
     }
 

@@ -1,2 +1,5 @@
 rootProject.name='GithubBrowser'
 include ':app'
+include ':login'
+include ':splashscreen'
+include ':contributorslist'
