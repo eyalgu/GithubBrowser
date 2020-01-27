@@ -1,0 +1,51 @@
+import dependencies.Deps
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation Deps.Kotlin.std
+    implementation Deps.KotlinX.Coroutines.core
+    implementation Deps.KotlinX.Coroutines.android
+    implementation Deps.AndroidX.appCompat
+    implementation Deps.AndroidX.Fragment.fragmentKtx
+    implementation Deps.AndroidX.Room.roomKtx
+    kapt Deps.AndroidX.Room.compiler
+
+    testImplementation Deps.Junit.junit
+    testImplementation Deps.Kotlin.testJunit
+    testImplementation Deps.KotlinX.Coroutines.test
+    testImplementation Deps.truth
+
+    androidTestImplementation Deps.Kotlin.testJunit
+    androidTestImplementation Deps.KotlinX.Coroutines.test
+    androidTestImplementation Deps.truth
+    androidTestImplementation Deps.AndroidX.Test.junitExt
+    androidTestImplementation Deps.AndroidX.Test.espressoCore
+}
