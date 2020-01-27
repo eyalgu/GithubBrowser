@@ -43,12 +43,11 @@ class UserStorageTest {
 
     @Test
     fun GIVEN_no_user_WHEN_new_users_THEN_users_are_emitted() = testScope.runBlockingTest {
-        val users = async {
-            userStorage.users
-                .take(2)
-                .toList()
-        }
         userStorage.setUserEntities(listOf(User1, User2))
+        val users = async {
+            userStorage.users()
+        }
+
         assertThat(users.await()).containsExactly(listOf<UserEntity>(), listOf(User1, User2))
     }
 }

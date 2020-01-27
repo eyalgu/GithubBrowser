@@ -46,8 +46,8 @@ internal abstract class UserDao : UserStorage {
     @get:Query("SELECT * FROM UserEntity LIMIT 1")
     abstract val userEntity: Flow<UserEntity?>
 
-    @get:Query("SELECT * FROM UserEntity")
-    abstract val users: Flow<List<UserEntity>>
+    @Query("SELECT * FROM UserEntity")
+    abstract suspend fun users(): List<UserEntity>
 
     override suspend fun setUser(user: User) = setUserEntities(listOf(
             UserEntity(
