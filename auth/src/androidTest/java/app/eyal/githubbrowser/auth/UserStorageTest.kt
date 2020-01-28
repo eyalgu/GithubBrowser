@@ -7,6 +7,7 @@ import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -45,9 +46,10 @@ class UserStorageTest {
     fun GIVEN_no_user_WHEN_new_users_THEN_users_are_emitted() = testScope.runBlockingTest {
         userStorage.setUserEntities(listOf(User1, User2))
         val users = async {
+            delay(100)
             userStorage.users()
         }
 
-        assertThat(users.await()).containsExactly(listOf<UserEntity>(), listOf(User1, User2))
+        assertThat(users.await()).containsExactly(User1, User2)
     }
 }

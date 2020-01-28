@@ -11,7 +11,7 @@ android:
   licenses:
   - android-sdk-license-.+
 script:
-- "./gradlew check --stacktrace"
+- "./gradlew check connectedAndroidTest --stacktrace"
 after_success:
 - gradle/deploy_snapshot.sh
 before_install:
