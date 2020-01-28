@@ -1,4 +1,12 @@
 language: android
+
+env:
+  global:
+    - ANDROID_HOME=${HOME}/android-sdk
+    - TOOLS=${ANDROID_HOME}/tools
+    # PATH order is incredibly important. e.g. the 'emulator' script exists in more than one place!
+    - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
+
 jdk:
 - oraclejdk8
 android:
